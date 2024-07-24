@@ -23,6 +23,13 @@ services:
       DYNAMIC_CONFIG_ENABLED: 'true'
       KAFKA_CLUSTERS_0_NAME: sample
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+  postgresdb:
+    image: postgres
+    restart: always
+    ports:
+     - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: Password1!
 volumes:
   kafka_data:
     driver: local
