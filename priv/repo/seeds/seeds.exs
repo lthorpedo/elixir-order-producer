@@ -14,6 +14,13 @@ case Mix.env() do
     {:ok, product_4} = Orders.Repo.insert %Product{ name: "baseball", price: 5.99}
     {:ok, product_5} = Orders.Repo.insert %Product{ name: "soccer", price: 16.16}
     {:ok, product_6} = Orders.Repo.insert %Product{ name: "football", price: 13.0}
+    {:ok, stock_a} = Orders.Repo.insert %Stock{ productname: "rocket", quantity: 100, warehouse: "Texas" }
+    {:ok, stock_b} = Orders.Repo.insert %Stock{ productname: "spacesuit", quantity: 100, warehouse: "Texas" }
+    {:ok, stock_c} = Orders.Repo.insert %Stock{ productname: "booster", quantity: 100, warehouse: "Texas" }
+    {:ok, stock_d} = Orders.Repo.insert %Stock{ productname: "planet", quantity: 10, warehouse: "n/a" }
+    {:ok, stock_e} = Orders.Repo.insert %Stock{ productname: "MRE", quantity: 10000, warehouse: "Texas" }
+    {:ok, stock_f} = Orders.Repo.insert %Stock{ productname: "telescope", quantity: 1000, warehouse: "Texas" }
+    {:ok, stock_g} = Orders.Repo.insert %Stock{ productname: "space gear", quantity: 200, warehouse: "Florida" }
   _ ->
     nil
 end
