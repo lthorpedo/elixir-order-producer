@@ -25,3 +25,4 @@ From here you can start the other service (elixir-inventory-consumer) at any poi
   * `psql -U postgres`
   * `\c orders`
   * `select * from customer_order;`
+  * `select co.id as customer_order_id, total_price, customer, purchase_date, op.quantity, p.name from customer_order co join order_product op on co.id = op.customer_order_id join product p on op.product_id = p.id where co.id = _REPLACE_ME_WITH_ID_;`

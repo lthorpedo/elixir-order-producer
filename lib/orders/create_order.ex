@@ -1,15 +1,21 @@
 defmodule OrderService do
 
-  def create_order(customer, user_products) do
-    products = Enum.filter(user_products, fn(x) -> get_product(x.name).id > 0 end)
+  def create_order(customer, user_products) when is_list(user_products) and is_binary(customer) do
+    groups = Enum.group_by(user_products, fn(x) -> get_product(x.name).id > 0 end)
+    products = groups[true]
+    invalidPs = groups[false]
     if (length(products) < 1) do
       IO.puts("No valid products purchased")
     else
-      create_order_follow(customer, products)
+      create_order_for_valid_products(customer, products)
+    end
+    if (length(invalidPs) > 0) do
+      IO.puts "Invalid products"
+      invalidPs |> Enum.each(&(IO.puts &1.name ))
     end
   end
 
-  defp create_order_follow(customer, products) do
+  defp create_order_for_valid_products(customer, products) do
     total = Enum.reduce(products, 0.0, fn(x, acc) -> acc + (get_product(x.name).price * x.qty) end)
 
     ord =%Customer_Order{
@@ -18,14 +24,16 @@ defmodule OrderService do
       total_price: total
     }
 
-    {:ok, dbOrder} = Orders.Repo.insert ord
-    if :ok do
-      IO.puts("Order Created")
-      IO.inspect(dbOrder)
-    else
-      IO.puts("Failed to insert order to db")
+    case Orders.Repo.insert ord do
+      {:ok, dbOrder} ->
+        IO.puts("Order Created")
+        create_order_product_quantities(products, dbOrder)
+      {:error, _changeset} ->
+        IO.puts("Failed to insert order to db")
     end
+  end
 
+  defp create_order_product_quantities(products, dbOrder) do
     products |> Enum.each(fn(x) ->
       prd = get_product(x.name)
       ord_prd =%Order_Product{
