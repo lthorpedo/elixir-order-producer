@@ -21,6 +21,8 @@ case Mix.env() do
     {:ok, stock_e} = Orders.Repo.insert %Stock{ productname: "MRE", quantity: 10000, warehouse: "Texas" }
     {:ok, stock_f} = Orders.Repo.insert %Stock{ productname: "telescope", quantity: 1000, warehouse: "Texas" }
     {:ok, stock_g} = Orders.Repo.insert %Stock{ productname: "space gear", quantity: 200, warehouse: "Florida" }
+
+    IO.puts("Let's create the kafka topics")
   _ ->
     nil
 end

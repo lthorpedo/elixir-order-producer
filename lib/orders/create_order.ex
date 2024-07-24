@@ -1,6 +1,15 @@
 defmodule OrderService do
 
-  def create_order(customer, products) do
+  def create_order(customer, user_products) do
+    products = Enum.filter(user_products, fn(x) -> get_product(x.name).id > 0 end)
+    if (length(products) < 1) do
+      IO.puts("No valid products purchased")
+    else
+      create_order_follow(customer, products)
+    end
+  end
+
+  defp create_order_follow(customer, products) do
     total = Enum.reduce(products, 0.0, fn(x, acc) -> acc + (get_product(x.name).price * x.qty) end)
 
     ord =%Customer_Order{
@@ -32,7 +41,12 @@ defmodule OrderService do
   end
 
   defp get_product(name) do
-    Product |> Orders.Repo.get_by!(name: name)
+    case Product |> Orders.Repo.get_by(name: name) do
+      nil ->
+        %Product{id: 0, price: 0.0, name: ""}
+      resource ->
+        resource
+    end
   end
 
 end

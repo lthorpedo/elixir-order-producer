@@ -12,6 +12,7 @@ Order creation app (by Levi)
 * Clone the repository
 * cd elixir-order-producer (or whatever you called the repos)
 * run `docker-compose up -d`
+* go to http://localhost:8080 and create two topics, one named "OrderCreated" and another named "InventoryUpdated" ... both should just have a single partition. All other fields should be optional.
 * run `mix deps.get`
 * run `mix ecto.setup` - this should create the database in postgres & populate the database with some seed data.
 

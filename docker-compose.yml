@@ -11,8 +11,8 @@ services:
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
-    volumes:
-      - kafka_data:/bitnami/kafka
+    # command: ["/opt/bitnami/kafka/bin/kafka-topics.sh --create --topic OrderCreated --bootstrap-server kafka:9092"]
+    # command: ["/opt/bitnami/kafka/bin/kafka-topics.sh --create --topic InventoryUpdated --bootstrap-server kafka:9092"]
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     depends_on:
@@ -30,6 +30,3 @@ services:
      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: Password1!
-volumes:
-  kafka_data:
-    driver: local
