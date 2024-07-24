@@ -19,10 +19,10 @@ Order creation app (by Levi)
 From here you can start the other service (elixir-inventory-consumer) at any point
 
 * run `iex -S mix`
-* Create an order in iex, and example of this is `OrderService.create_order "Levi", [%{name: "MRE", qty: 18},%{name: "rocket", qty: 1},%{name: "spacesuit", qty: 2}]`
+* Create an order in iex, and example of this is `OrderService.create_order "Levi", [%{name: "MRE", qty: 18},%{name: "mri", qty: 1},%{name: "spacesuit", qty: 1},%{name: "rocket", qty: 1},%{name: "booster", qty: 2},%{name: "telescope", qty: 8}]`
 * to query the database you can run these commands
   * `docker exec -it elixir-order-producer-postgresdb-1 bash` (your container may have a different name)
   * `psql -U postgres`
   * `\c orders`
   * `select * from customer_order;`
-  * `select co.id as customer_order_id, total_price, customer, purchase_date, op.quantity, p.name from customer_order co join order_product op on co.id = op.customer_order_id join product p on op.product_id = p.id where co.id = _REPLACE_ME_WITH_ID_;`
+  * `select co.id as customer_order_id, total_price, customer, purchase_date, op.quantity, p.name, p.price from customer_order co join order_product op on co.id = op.customer_order_id join product p on op.product_id = p.id where co.id = _REPLACE_ME_WITH_ID_;`
