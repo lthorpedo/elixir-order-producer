@@ -17,4 +17,8 @@ defmodule OrderServiceTest do
        %{name: "", qty: 1},
        %{name: "spacesuit", qty: 1}]) == :some_invalid_products
   end
+
+  test "empty/blank order" do
+    assert OrderService.create_order("blank order",[]) == :no_valid_products
+  end
 end
