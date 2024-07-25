@@ -4,14 +4,18 @@ defmodule OrderService do
     groups = Enum.group_by(user_products, fn(x) -> get_product(x.name).id > 0 end)
     products = groups[true]
     invalidPs = groups[false]
-    if (products == nil || length(products) < 1) do
-      IO.puts("No valid products purchased")
-    else
-      create_order_for_valid_products(customer, products)
-    end
-    if (invalidPs != nil && length(invalidPs) > 0) do
-      IO.puts "Invalid products"
-      invalidPs |> Enum.each(&(IO.puts &1.name ))
+    cond do
+      (products == nil || length(products) < 1) ->
+        IO.puts("No valid products purchased")
+        :no_valid_products
+      (invalidPs != nil && length(invalidPs) > 0) ->
+        create_order_for_valid_products(customer, products)
+        IO.puts "Invalid products"
+        invalidPs |> Enum.each(&(IO.puts &1.name ))
+        :some_invalid_products
+      true ->
+        create_order_for_valid_products(customer, products)
+        :order_placed
     end
   end
 
